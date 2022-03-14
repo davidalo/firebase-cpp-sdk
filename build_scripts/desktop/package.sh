@@ -357,6 +357,7 @@ for product in ${product_list[*]}; do
                     ${libfile_src} ${deps[*]}
     fi
     # Place the merge command in a script so we can optionally run them in parallel.
+    echo "ddb creating merge_${product}.sh"
     echo "#!/bin/bash -e" > "${merge_libraries_tmp}/merge_${product}.sh"
     if [[ ! -z ${deps_basenames[*]} ]]; then
       echo "echo \"${libfile_out} <- ${deps[*]}\"" >> "${merge_libraries_tmp}/merge_${product}.sh"
@@ -367,6 +368,8 @@ for product in ${product_list[*]}; do
         echo -n  >> "${merge_libraries_tmp}/merge_${product}.sh"
     fi
     echo >> "${merge_libraries_tmp}/merge_${product}.sh"
+    echo "ddb locating files:"
+    ls -l "${merge_libraries_tmp}/*.sh"
     echo "\"${python_cmd}\" \\
       \"${merge_libraries_script}\" \\
       ${merge_libraries_params[*]} \\
@@ -389,6 +392,8 @@ if [[ ${run_in_parallel} -ne 0 ]]; then
   shortest=analytics
   echo "There are ${#product_list[@]} jobs to run."
   echo "Running shortest job to populate cache, then remaining jobs in parallel..."
+  echo "ddb locating files (2):"
+  ls -l "${merge_libraries_tmp}/*.sh"
   "${merge_libraries_tmp}/merge_${shortest}.sh"
   # Zero out the job that we already did.
   echo "#!/bin/bash" > "${merge_libraries_tmp}/merge_${shortest}.sh"
