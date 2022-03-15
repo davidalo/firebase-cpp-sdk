@@ -396,7 +396,7 @@ if [[ ${run_in_parallel} -ne 0 ]]; then
   echo "There are ${#product_list[@]} jobs to run."
   echo "Running shortest job to populate cache, then remaining jobs in parallel..."
   echo "ddb locating files (2):"
-  ls -l "${merge_libraries_tmp}/*.sh"
+  ls -l "${merge_libraries_tmp}"
   "${merge_libraries_tmp}/merge_${shortest}.sh"
   # Zero out the job that we already did.
   echo "#!/bin/bash" > "${merge_libraries_tmp}/merge_${shortest}.sh"
