@@ -360,8 +360,10 @@ for product in ${product_list[*]}; do
     echo "ddb creating merge_${product}.sh"
     echo "#!/bin/bash -e" > "${merge_libraries_tmp}/merge_${product}.sh"
     if [[ ! -z ${deps_basenames[*]} ]]; then
+      echo "ddb using deps array"
       echo "echo \"${libfile_out} <- ${deps[*]}\"" >> "${merge_libraries_tmp}/merge_${product}.sh"
     else
+      echo "ddb not using deps array"
       echo "echo \"${libfile_out}\"" >> "${merge_libraries_tmp}/merge_${product}.sh"
     fi
     if [[ ! -z ${deps_basenames[*]} ]]; then
@@ -369,7 +371,8 @@ for product in ${product_list[*]}; do
     fi
     echo >> "${merge_libraries_tmp}/merge_${product}.sh"
     echo "ddb locating files:"
-    ls -l "${merge_libraries_tmp}/*.sh"
+    ls -l "${merge_libraries_tmp}"
+    cat "${merge_libraries_tmp}/merge_${product}.sh"
     echo "\"${python_cmd}\" \\
       \"${merge_libraries_script}\" \\
       ${merge_libraries_params[*]} \\
